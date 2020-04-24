@@ -1,80 +1,176 @@
-/* 
- * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
- * See LICENSE in the project root for license information.
- */
-
- html,
- body {
-     width: 100%;
-     height: 100%;
-     margin: 0;
-     padding: 0;
- }
- 
- ul {
-     margin: 0;
-     padding: 0;
- }
- 
- .ms-welcome__header {
-    padding: 20px;
-    padding-bottom: 30px;
-    padding-top: 100px;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    align-items: center;
- }
-
- .ms-welcome__main {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    -webkit-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex: 1 0 0;
-    flex: 1 0 0;
-    padding: 10px 20px;
- }
- 
- .ms-welcome__main > h2 {
-     width: 100%;
-     text-align: center;
- }
- 
- .ms-welcome__features {
-     list-style-type: none;
-     margin-top: 20px;
- }
- 
- .ms-welcome__features.ms-List .ms-ListItem {
-     padding-bottom: 20px;
-     display: -webkit-flex;
-     display: flex;
- }
- 
- .ms-welcome__features.ms-List .ms-ListItem > .ms-Icon {
-     margin-right: 10px;
- }
- 
- .ms-welcome__action.ms-Button--hero {
-     margin-top: 30px;
- }
- 
-.ms-Button.ms-Button--hero .ms-Button-label {
-  color: #0078d7;
+html,
+:root {
+  --background: #242526;
+  --background-accent: red;
+  --text-color: white;
+  --nav-size: 200px;
+  --border: 2px solid black;
+  --border-radius: 10px;
+  --speed: 500ms;
 }
 
-.ms-Button.ms-Button--hero:hover .ms-Button-label,
-.ms-Button.ms-Button--hero:focus .ms-Button-label{
-  color: #005a9e;
-  cursor: pointer;
+html {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
-b {
-    font-weight: bold;
+body {
+  margin: 0px;
+  min-height: 100%;
+  width: 100%;
+  padding: 0;
+  background: white;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+#container {
+  margin: 0px;
+  min-height: 818px;
+  width: 100%;
+  padding: 0;
+  background: white;
+}
+
+.navbar {
+  background-color: var(--background);
+  height: 30vh;
+  width: 100%;
+  color: var(--text-color);
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#title {
+  margin-bottom: 2rem;
+}
+#logo {
+  width: 60%;
+  height: 50%;
+  border-radius: 50%;
+  flex: 2;
+}
+
+.button-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: calc(var(--button-bar-size));
+  width: 60%;
+}
+
+svg {
+  height: 1rem;
+  width: 1rem;
+}
+
+.button-item {
+  --button-size: calc(var(--nav-size) * 0.2);
+  width: var(--button-size);
+  height: var(--button-size);
+  background-color: #484a4d;
+  border-radius: 80%;
+  transition: filter 300ms;
+}
+
+.nav-button svg {
+  transform: translate(50%, 50%);
+}
+
+.button-item:hover {
+  filter: brightness(1.8);
+}
+
+.nav-button svg {
+  fill: black;
+  width: 20px;
+  height: 20px;
+}
+
+.dropdown {
+  position: absolute;
+  top: 290px;
+  width: 100vw;
+  transform: translateX(-25%);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  overflow: hidden;
+  background: var(--background);
+
+  transition: height var(--speed) ease;
+}
+
+.menu-item {
+  height: 50px;
+  width: 90%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  transition: background var(--speed);
+  padding: 0.5rem;
+}
+
+.menu-item:hover {
+  background-color: #525357;
+}
+
+.menu-item svg {
+  transform: translate(70%, 70%);
+}
+
+.menu-item h4 {
+  margin-left: 0.5rem;
+}
+
+.icon-right {
+  margin-left: auto;
+}
+
+.settings {
+  width: 100%;
+}
+
+.settings-primary-enter {
+  position: absolute;
+  transform: translate(-110%);
+}
+
+.settings-primary-enter-active {
+  transform: translate(0%);
+  transition: all var(--speed) ease;
+}
+.settings-primary-exit {
+  position: aboslute;
+}
+.settings-primary-exit-active {
+  transform: translateX(-110%);
+  transition: all var(--speed) ease;
+}
+
+.settings-folder-enter {
+  position: absolute;
+  transform: translate(-110%);
+}
+
+.settings-folder-enter-active {
+  transform: translate(0%);
+  transition: all var(--speed) ease;
+}
+.settings-folder-exit {
+}
+.settings-folder-exit-active {
+  transform: translateX(110%);
+  transition: all var(--speed) ease;
 }

@@ -1,5 +1,3 @@
-const InteractiveFolder = ["@COOLMONDAY", "@COOLTUESDAY"];
-
 function getCreateFolderXMLRequest(request) {
   /*
   example request parameter
@@ -39,7 +37,6 @@ export default function createFolders(listOfFolders, callback) {
   }
 
   const folderXMLRequest = getCreateFolderXMLRequest(xmlFolders.join(" "));
-  console.log(folderXMLRequest);
 
   Office.context.mailbox.makeEwsRequestAsync(folderXMLRequest, callback);
 }
