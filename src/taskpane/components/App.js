@@ -7,6 +7,7 @@ import NotificationIcon from "./icons/bell.js";
 import AddIcon from "./icons/plus.js";
 import BackIcon from "./icons/arrow.js";
 import FolderIcon from "./icons/folder.js";
+import DeleteIcon from "./icons/delete.js";
 /* global Button, Header, HeroList, HeroListItem, Progress */
 
 function App() {
@@ -27,42 +28,76 @@ function ButtonBar() {
   return (
     <div className="button-bar">
       <NavButton icon={<CogIcon />}>
-        <DropdownMenu />
+        <SettingsDropdownMenu />
       </NavButton>
-      <NavButton icon={<NotificationIcon />} />
+      <NavButton icon={<NotificationIcon />}>
+        <NotificationDropdownMenu />
+      </NavButton>
 
       <NavButton icon={<AddIcon />} />
     </div>
   );
 }
 
-function DropdownMenu() {
+function DropdownItem(props) {
+  return (
+    <div
+      href="#"
+      className={props.leftIcon ? "menu-item" : "menu-title-item"}
+      onClick={() => props.goToMenu && props.setActiveMenu(props.goToMenu)}
+    >
+      {props.leftIcon && (
+        <span href="#" className="button-item">
+          {props.leftIcon}
+        </span>
+      )}
+      {props.children}
+      <a href="#" className="icon-right" onClick={() => props.deleteFolder(props.id)}>
+        {props.rightIcon}
+      </a>
+    </div>
+  );
+}
+
+function NotificationDropdownMenu() {
+  return (
+    <div className="dropdown dropdown-notifications">
+      <DropdownItem> Email Sent! </DropdownItem>
+      <DropdownItem> Email sent! </DropdownItem>
+      <DropdownItem> Settings change </DropdownItem>
+      <DropdownItem> Settings </DropdownItem>
+    </div>
+  );
+}
+
+function SettingsDropdownMenu() {
+  var defaultFolders = [
+    "@CoolMonday",
+    "@CoolTuesday",
+    "@CoolWednesday",
+    "@CoolThursday",
+    "@CoolFriday",
+    "@CoolCalendar"
+  ];
+
   const [activeMenu, setActiveMenu] = useState("settings");
   const [menuHeight, setMenuHeight] = useState(null);
+  const [folders, setFolders] = useState(defaultFolders);
 
   function calcHeight(element) {
     const height = element.offsetHeight;
     setMenuHeight(height);
   }
 
-  function DropdownItem(props) {
-    return (
-      <a href="#" className="menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
-        {props.leftIcon && (
-          <span href="#" className="button-item">
-            {props.leftIcon}
-          </span>
-        )}
-        {props.children}
-        <span href="#" className="icon-right">
-          {props.rightIcon}
-        </span>
-      </a>
-    );
+  function deleteFolder(index) {
+    var newFolders = folders.splice(0, index).concat(folders.splice(index + 1));
+    console.log(newFolders);
+
+    setFolders(newFolders);
   }
 
   return (
-    <div className="dropdown" style={{ height: menuHeight }}>
+    <div className="dropdown dropdown-settings" style={{ height: menuHeight }}>
       <CSSTransition
         in={activeMenu === "settings"}
         unmountOnExit
@@ -72,7 +107,7 @@ function DropdownMenu() {
       >
         <div className="settings">
           <DropdownItem> Settings </DropdownItem>
-          <DropdownItem goToMenu="folders" leftIcon={<CogIcon />}>
+          <DropdownItem goToMenu="folders" setActiveMenu={setActiveMenu} leftIcon={<CogIcon />}>
             <h4> Folders </h4>
           </DropdownItem>
         </div>
@@ -86,25 +121,19 @@ function DropdownMenu() {
         onEnter={calcHeight}
       >
         <div className="settings">
-          <DropdownItem leftIcon={<BackIcon />} goToMenu="settings"></DropdownItem>
-          <DropdownItem leftIcon={<FolderIcon />}>
-            <h4> @CoolMonday </h4>
-          </DropdownItem>
-          <DropdownItem leftIcon={<FolderIcon />}>
-            <h4> @CoolTuesday </h4>
-          </DropdownItem>
-          <DropdownItem leftIcon={<FolderIcon />}>
-            <h4> @CoolWednesday </h4>
-          </DropdownItem>
-          <DropdownItem leftIcon={<FolderIcon />}>
-            <h4> @CoolThursday </h4>
-          </DropdownItem>
-          <DropdownItem leftIcon={<FolderIcon />}>
-            <h4> @CoolFriday </h4>
-          </DropdownItem>
-          <DropdownItem leftIcon={<FolderIcon />}>
-            <h4> @CoolCalendar </h4>
-          </DropdownItem>
+          <DropdownItem
+            goToMenu="settings"
+            setActiveMenu={setActiveMenu}
+            leftIcon={<BackIcon />}
+            goToMenu="settings"
+          ></DropdownItem>
+          {folders.map((folderName, index) => {
+            return (
+              <DropdownItem id={index} leftIcon={<FolderIcon />} rightIcon={<DeleteIcon />} deleteFolder={deleteFolder}>
+                <h4> {folderName} </h4>
+              </DropdownItem>
+            );
+          })}
         </div>
       </CSSTransition>
     </div>

@@ -96,17 +96,32 @@ svg {
   height: 20px;
 }
 
+.dropdown-settings {
+  transform: translateX(-25%);
+}
+
+.dropdown-notifications {
+  transform: translateX(-40%);
+  border: 2px solid white;
+  border-radius: var(--border-radius);
+}
+
+.dropdown-notifications .menu-item {
+  border: 1px solid white;
+  border-radius: var(--border-radius);
+  outline-color: white;
+  outline-style: solid;
+}
+
 .dropdown {
   position: absolute;
   top: 290px;
   width: 100vw;
-  transform: translateX(-25%);
   border: var(--border);
   border-radius: var(--border-radius);
   padding: 1rem;
   overflow: hidden;
   background: var(--background);
-
   transition: height var(--speed) ease;
 }
 
@@ -134,8 +149,23 @@ svg {
   margin-left: 0.5rem;
 }
 
+.menu-title-item {
+  height: 50px;
+  width: 90%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  padding: 0.5rem;
+}
+
 .icon-right {
   margin-left: auto;
+  transform: translate(-100%, -100%) scale(2, 2);
+  height: 20px;
+  width: 20px;
+  fill: lightcoral;
 }
 
 .settings {
