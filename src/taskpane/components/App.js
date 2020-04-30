@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
+import createFolders from "../../commands/EWS";
 
 import CoolBoxLogo from "../images/Coolbox.png";
 import CogIcon from "./icons/cog.js";
@@ -11,6 +12,11 @@ import DeleteIcon from "./icons/delete.js";
 /* global Button, Header, HeroList, HeroListItem, Progress */
 
 function App() {
+  useEffect(() => {
+    createFolders(["@COOLMONDAY", "@COOLTUESDAY"], asyncResult => {
+      console.log(asyncResult);
+    });
+  });
   return <NavBar />;
 }
 
@@ -33,8 +39,9 @@ function ButtonBar() {
       <NavButton icon={<NotificationIcon />}>
         <NotificationDropdownMenu />
       </NavButton>
-
-      <NavButton icon={<AddIcon />} />
+      <NavButton icon={<AddIcon />}>
+        <AddFolderDropdownMenu />
+      </NavButton>
     </div>
   );
 }
@@ -55,6 +62,44 @@ function DropdownItem(props) {
       <a href="#" className="icon-right" onClick={() => props.deleteFolder(props.id)}>
         {props.rightIcon}
       </a>
+    </div>
+  );
+}
+
+function AddFolderDropdownMenu(props) {
+  var defaultForm = {
+    api: "Outlook Api",
+    folderName: ""
+  };
+  var [formValues, setFormValues] = useState(defaultForm);
+
+  function handleSubmit(event) {
+    console.log("Submit form");
+    props.addFolder && props.addFolder(formValues.folderName);
+    event.preventDefault();
+  }
+
+  function handleInputChange(event) {
+    const newForm = { ...formValues, api: event.target.value };
+    setFormValues(newForm);
+    event.preventDefault();
+  }
+
+  return (
+    <div className="dropdown dropdown-add-folders">
+      <form onSubmit={handleSubmit}>
+        <label>
+          API:
+          <select value={formValues.api} onChange={handleInputChange}>
+            <option value="Slack">Slack</option>
+            <option value="Outlook Api">Outlook</option>
+            <option value="Calendar Api">Calendar</option>
+            <option value="Tasks">Tasks</option>
+          </select>
+        </label>
+        <input type="text" value={formValues.folderName} />
+        <input type="submit" value="Submit" />
+      </form>
     </div>
   );
 }

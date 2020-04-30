@@ -37,6 +37,7 @@ export default function createFolders(listOfFolders, callback) {
   }
 
   const folderXMLRequest = getCreateFolderXMLRequest(xmlFolders.join(" "));
-
-  Office.context.mailbox.makeEwsRequestAsync(folderXMLRequest, callback);
+  Office.onReady(() => {
+    Office.context.mailbox.makeEwsRequestAsync(folderXMLRequest, callback);
+  });
 }
