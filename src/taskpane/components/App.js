@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 import createFolders from "../../commands/EWS";
+import { callGraphApi, getMessageSubject, createFolder } from "../../commands/rest";
 
 import CoolBoxLogo from "../images/Coolbox.png";
 import CogIcon from "./icons/cog.js";
@@ -13,6 +14,8 @@ import DeleteIcon from "./icons/delete.js";
 
 function App() {
   useEffect(() => {
+    const response = callGraphApi(createFolder, { DisplayName: "@COOLMONDAY" });
+    console.log(response);
     createFolders(["@COOLMONDAY", "@COOLTUESDAY"], asyncResult => {
       console.log(asyncResult);
     });
