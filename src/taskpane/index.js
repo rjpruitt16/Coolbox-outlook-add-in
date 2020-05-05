@@ -3,6 +3,8 @@ import App from "./components/App";
 import { AppContainer } from "react-hot-loader";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { callGraphApi, cleanCoolNowFolder, createFolder, getAllApiFolders } from "../commands/rest";
+
 /* global AppCpntainer, Component, document, Office, module, React, require */
 
 let isOfficeInitialized = false;
@@ -21,6 +23,7 @@ const render = Component => {
 /* Render application after Office initializes */
 Office.initialize = () => {
   isOfficeInitialized = true;
+
   render(App);
 };
 
@@ -33,3 +36,6 @@ if (module.hot) {
     render(NextApp);
   });
 }
+
+// callGraphApi(createFolder, { DisplayName: "@COOLNOW" }, {});
+callGraphApi(getAllApiFolders, {}, { onDataCompleteCallback: cleanCoolNowFolder });
