@@ -76,8 +76,47 @@ export function cleanWeekdayMessages(messages, accessToken) {
   messages.value.forEach(message => {
     if (message.IsDraft) {
       sendMessage(accessToken, {}, { messageId: message.Id });
+    } else {
+      changeAndMoveMessageToInbox(
+        accessToken,
+        {
+          SentDateTime: new Date().toISOString(),
+          CreatedDateTime: new Date().toISOString(),
+          ReceivedDateTime: new Date().toISOString(),
+          IsRead: false
+        },
+        { messageId: message.Id }
+      );
     }
   });
+}
+
+export async function changeAndMoveMessageToInbox(accessToken, parameters, options) {
+  var getUpdateUrl = graphUrl + `messages/${options.messageId}`;
+  var updateResponse = await fetch(getUpdateUrl, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+      Authorization: "Bearer " + accessToken
+    },
+    body: JSON.stringify(parameters)
+  });
+  await updateResponse.json();
+  if (updateResponse.ok) {
+    var getUpdateUrl = graphUrl + `messages/${options.messageId}/move`;
+    var moveResponse = await fetch(getUpdateUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + accessToken
+      },
+      body: JSON.stringify({
+        DestinationId: "Inbox"
+      })
+    });
+  }
+  moveResponse = await moveResponse.json();
+  console.log(moveResponse);
 }
 
 export async function sendMessage(accessToken, parameters, options) {

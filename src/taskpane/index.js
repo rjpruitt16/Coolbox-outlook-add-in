@@ -42,5 +42,4 @@ if (module.hot) {
 var coolNowJob = new CronJob("* * * * * *", function() {
   callGraphApi(getAllApiFolders, {}, { onDataCompleteCallback: cleanCoolNowFolder });
 });
-
 coolNowJob.start();
