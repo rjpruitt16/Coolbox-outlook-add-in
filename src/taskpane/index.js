@@ -4,6 +4,7 @@ import { AppContainer } from "react-hot-loader";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { callGraphApi, cleanCoolNowFolder, createFolder, getAllApiFolders } from "../commands/rest";
+var CronJob = require("cron").CronJob;
 
 /* global AppCpntainer, Component, document, Office, module, React, require */
 
@@ -38,4 +39,8 @@ if (module.hot) {
 }
 
 // callGraphApi(createFolder, { DisplayName: "@COOLNOW" }, {});
-callGraphApi(getAllApiFolders, {}, { onDataCompleteCallback: cleanCoolNowFolder });
+var coolNowJob = new CronJob("* * * * * *", function() {
+  callGraphApi(getAllApiFolders, {}, { onDataCompleteCallback: cleanCoolNowFolder });
+});
+
+coolNowJob.start();
